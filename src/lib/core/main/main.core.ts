@@ -2,11 +2,13 @@ import { getAdapter, SupportedAdapters } from '@lib/adapters';
 import {
   AppModule,
   CoreAdapter,
+  CoreConfigModule,
   CoreMainFactory,
   type ILogger,
 } from '@lib/interfaces';
 import { injectable } from 'inversify';
 import { CoreManager } from './containter.core';
+import { ConfigModule } from '@lib/common/config/config.module';
 
 @injectable()
 export class AppFactory implements CoreMainFactory {
@@ -24,9 +26,15 @@ export class AppFactory implements CoreMainFactory {
       .tag('builder')
       .warning(`mount application with adapter: ${adapter}`);
     const Adapter = await getAdapter(adapter);
-    this.manager.add<CoreAdapter>(Adapter, 'CORE_ADAPTER');
+    this.manager.add<CoreAdapter>(Adapter, 'CORE_ADAPTER', true);
     this.manager.get<CoreAdapter>('CORE_ADAPTER').mount();
-    this.logger.tag('builder').success('adapter mounted!');
+    this.logger.tag('builder').success('adapter build process done');
+  }
+
+  async getConfig(type: 'dotenv' | 'json') {
+    this.manager.add<CoreConfigModule>(ConfigModule, 'APP_CONFIG', true);
+    const config = await this.manager.get<ConfigModule>('APP_CONFIG').env(type);
+    return config?.getEnv();
   }
 
   create(root: AppModule): unknown {

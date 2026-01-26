@@ -9,13 +9,6 @@ export class ExpressAdapter implements CoreAdapter {
 
   mount(...args: unknown[]) {
     this.logger.tag('builder').warning('configuring express adapter');
-    this.logger
-      .tag('builder')
-      .success(
-        'express adapter done!',
-        { message: 'testing, objec' },
-        'anyhow',
-      );
   }
 
   listen(...args: unknown[]): unknown {

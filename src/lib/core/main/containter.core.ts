@@ -19,8 +19,13 @@ export class CoreManager {
     return CoreManager.instance;
   }
 
-  add<T>(Module: new (...args: any[]) => T, id: string | symbol) {
-    this.container.bind<T>(id).to(Module);
+  add<T>(
+    Module: new (...args: any[]) => T,
+    id: string | symbol,
+    singleton?: boolean,
+  ) {
+    const binding = this.container.bind<T>(id).to(Module);
+    if (singleton) binding.inSingletonScope();
   }
 
   exists(id: string | symbol) {
