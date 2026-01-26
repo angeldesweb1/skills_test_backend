@@ -21,14 +21,10 @@ export class AppFactory implements CoreMainFactory {
   }
 
   async mount(adapter: SupportedAdapters): Promise<void> {
-    this.logger.log('mounting application...');
-    this.logger
-      .tag('builder')
-      .warning(`mount application with adapter: ${adapter}`);
+    this.logger.log('mounting application with adapter: ', adapter);
     const Adapter = await getAdapter(adapter);
     this.manager.add<CoreAdapter>(Adapter, 'CORE_ADAPTER', true);
     this.manager.get<CoreAdapter>('CORE_ADAPTER').mount();
-    this.logger.tag('builder').success('adapter build process done');
   }
 
   async getConfig(type: 'dotenv' | 'json') {
