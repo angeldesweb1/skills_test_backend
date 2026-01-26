@@ -9,22 +9,23 @@ import {
 import { injectable } from 'inversify';
 import { CoreManager } from './containter.core';
 import { ConfigModule } from '@lib/common/config/config.module';
+import { ADAPTER, FACTORY, LOGGER } from '@lib/di/keys';
 
 @injectable()
 export class AppFactory implements CoreMainFactory {
   private manager: CoreManager = CoreManager.manage();
-  private logger: ILogger = this.manager.get<ILogger>('APP_LOGGER');
+  private logger: ILogger = this.manager.get<ILogger>(LOGGER);
 
   constructor() {
-    this.manager.add<CoreMainFactory>(AppFactory, 'CORE_FACTORY');
+    this.manager.add<CoreMainFactory>(AppFactory, FACTORY);
     return this;
   }
 
   async mount(adapter: SupportedAdapters): Promise<void> {
     this.logger.log('mounting application with adapter: ', adapter);
     const Adapter = await getAdapter(adapter);
-    this.manager.add<CoreAdapter>(Adapter, 'CORE_ADAPTER', true);
-    this.manager.get<CoreAdapter>('CORE_ADAPTER').mount();
+    this.manager.add<CoreAdapter>(Adapter, ADAPTER, true);
+    this.manager.get<CoreAdapter>(ADAPTER).mount();
   }
 
   async getConfig(type: 'dotenv' | 'json') {

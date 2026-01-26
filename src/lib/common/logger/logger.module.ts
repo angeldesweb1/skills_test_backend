@@ -15,8 +15,6 @@ import {
 export class Logger implements ILogger {
   private status = loggerStatus;
   private tags = loggerTags;
-
-  private currentStatus: StatusKey = 'default';
   private currentTag: TagKey = 'default';
 
   constructor() {}
@@ -47,7 +45,6 @@ export class Logger implements ILogger {
   }
 
   reset() {
-    this.currentStatus = 'default';
     this.currentTag = 'default';
   }
 

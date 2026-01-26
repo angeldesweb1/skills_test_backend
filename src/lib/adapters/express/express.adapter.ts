@@ -2,13 +2,14 @@ import { CoreAdapter, type ILogger } from '@lib/interfaces';
 import { inject, injectable } from 'inversify';
 import { getApplication } from './express.modules';
 import { Application } from 'express';
+import { LOGGER } from '@lib/di/keys';
 
 @injectable()
 export class ExpressAdapter implements CoreAdapter {
   private app: Application | undefined = undefined;
-  constructor(@inject('APP_LOGGER') private logger: ILogger) {}
+  constructor(@inject(LOGGER) private logger: ILogger) {}
 
-  mount(...args: unknown[]) {
+  mount() {
     this.logger.tag('builder').warning('configuring express adapter');
     this.app = getApplication();
   }

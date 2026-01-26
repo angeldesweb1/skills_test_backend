@@ -1,3 +1,4 @@
+import { LOGGER } from '@lib/di/keys';
 import { CoreConfigModule, type ILogger } from '@lib/interfaces';
 import { inject, injectable } from 'inversify';
 import { readFile } from 'node:fs/promises';
@@ -8,7 +9,7 @@ import { cwd } from 'node:process';
 export class ConfigModule implements CoreConfigModule {
   private envVars: Record<string, unknown> = {};
 
-  constructor(@inject('APP_LOGGER') private logger: ILogger) {}
+  constructor(@inject(LOGGER) private logger: ILogger) {}
 
   private async useEnv() {
     const env = await readFile(join(cwd(), '.env'));
