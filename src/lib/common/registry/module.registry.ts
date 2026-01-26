@@ -1,14 +1,16 @@
 import { provide } from '@inversifyjs/binding-decorators';
 import { MODULE_REGISTRY } from '@lib/di/keys';
-import { CoreModuleRegistry } from '@lib/interfaces';
+import { AppModule, AppRootModule, CoreModuleRegistry } from '@lib/interfaces';
 import { injectable } from 'inversify';
+
+type Module = new () => AppRootModule | AppModule;
 
 @injectable()
 @provide(MODULE_REGISTRY, (binding) => {
   binding.inSingletonScope();
 })
-export class ModuleRegistry implements CoreModuleRegistry {
-  private readonly modules: Map<string, string | symbol>;
+export class ModuleRegistry {
+  private readonly modules: Map<string, Module>;
 
   constructor() {
     this.modules = new Map();
@@ -18,7 +20,7 @@ export class ModuleRegistry implements CoreModuleRegistry {
     return this.modules.has(key);
   }
 
-  addEntry(key: string, entry: string | symbol) {
+  addEntry(key: string, entry: Module) {
     if (!this.exists(key)) this.modules.set(key, entry);
   }
 

@@ -17,10 +17,12 @@ export interface CoreConfigModule {
   getKeys(): unknown;
 }
 
+export type Module = new () => AppRootModule | AppModule;
+
 export interface CoreModuleRegistry {
   exists(key: string): boolean;
-  addEntry(key: string, entry: string | symbol): void;
-  getEntry(key: string): string | symbol | undefined;
-  allEntries(): unknown;
+  addEntry(key: string, entry: Module): void;
+  getEntry(key: string): Module;
+  allEntries(): Record<string, Module>;
   deleteEntry(key: string): void;
 }

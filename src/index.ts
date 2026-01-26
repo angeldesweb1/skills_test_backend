@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+import 'module-alias/register';
 import { AppFactory } from '@lib/core/main/main.core';
 import '@app/main';
 

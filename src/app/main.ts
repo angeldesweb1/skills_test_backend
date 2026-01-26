@@ -7,8 +7,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
 
-@injectable()
-@Module('root')
+@Module({ name: 'root', children: [] })
 export class RootModule implements AppRootModule {
   public children = [VehiclesModule, UsersModule];
   public globalMiddlewares = [cors(), morgan('tiny'), helmet()];
