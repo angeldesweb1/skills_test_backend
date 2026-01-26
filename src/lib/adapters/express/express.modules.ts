@@ -9,45 +9,21 @@ import express, {
   urlencoded,
 } from 'express';
 
-type Middleware = () => (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => void;
+type Middleware = () => (req: Request, res: Response, next: NextFunction) => void;
 
-export function getApplication(): Application {
+export function getApp(): Application {
   const app: Application = express();
   app.use(json());
   app.use(urlencoded({ extended: true }));
   return app;
 }
 
-export function subscribeGlobalMiddlewares(
-  app: Application,
-  middlewares: Middleware[],
-): void {
+export function addMiddlewares(app: Application, middlewares: RequestHandler[]): void {
   app.use(middlewares);
 }
 
-export function subscribeControllers(
-  app: Application,
-  controllers: RequestHandler[],
-): void {
+export function addControllers(app: Application, controllers: RequestHandler[]): void {
   app.use(controllers);
-}
-
-export function subscribeRoute(
-  router: Router,
-  method: 'get' | 'post' | 'put' | 'delete' | 'patch',
-  path: string,
-  fn: RequestHandler,
-  middlewares?: Middleware[],
-) {
-  if (middlewares?.length) {
-    router[method](path, ...middlewares, fn);
-  } else {
-    router[method](path, fn);
-  }
 }
 
 export async function startExpressApp(
