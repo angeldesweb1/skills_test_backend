@@ -1,9 +1,8 @@
 import { Module } from '@lib/decorators/module.decorator';
 import { AppModule } from '@lib/interfaces';
-import { injectable } from 'inversify';
 
 @Module({ name: 'users', children: [] })
-export class UsersModule {
+export class UsersModule implements AppModule {
   constructor() {}
   public active = true;
 }
