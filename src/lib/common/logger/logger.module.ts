@@ -2,16 +2,11 @@ import { provide } from '@inversifyjs/binding-decorators';
 import { ILogger } from '@lib/interfaces';
 import clc from 'cli-color';
 import { injectable } from 'inversify';
-import {
-  loggerStatus,
-  loggerTags,
-  StatusKey,
-  Tag,
-  TagKey,
-} from './logger.dictionary';
+import { loggerStatus, loggerTags, Tag, TagKey } from './logger.dictionary';
+import { LOGGER } from '@lib/di/keys';
 
 @injectable()
-@provide('APP_LOGGER')
+@provide(LOGGER)
 export class Logger implements ILogger {
   private status = loggerStatus;
   private tags = loggerTags;

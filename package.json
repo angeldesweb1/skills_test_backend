@@ -42,7 +42,6 @@
   },
   "_moduleAliases": {
     "@lib": "src/lib",
-    "@core": "src/core",
-    "@interfaces": "src/interfaces"
+    "@app": "src/app"
   }
 }

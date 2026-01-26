@@ -10,3 +10,11 @@ export interface CoreConfigModule {
   getEnv(): unknown;
   getKeys(): unknown;
 }
+
+export interface CoreModuleRegistry {
+  exists(key: string): boolean;
+  addEntry(key: string, entry: string | symbol): void;
+  getEntry(key: string): unknown;
+  allEntries(): unknown;
+  deleteEntry(key: string): void;
+}

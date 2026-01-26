@@ -4,12 +4,13 @@ import {
   CoreAdapter,
   CoreConfigModule,
   CoreMainFactory,
+  CoreModuleRegistry,
   type ILogger,
 } from '@lib/interfaces';
 import { injectable } from 'inversify';
 import { CoreManager } from './containter.core';
 import { ConfigModule } from '@lib/common/config/config.module';
-import { ADAPTER, FACTORY, LOGGER } from '@lib/di/keys';
+import { ADAPTER, FACTORY, LOGGER, MODULE_REGISTRY } from '@lib/di/keys';
 
 @injectable()
 export class AppFactory implements CoreMainFactory {
@@ -34,8 +35,9 @@ export class AppFactory implements CoreMainFactory {
     return config?.getEnv();
   }
 
-  create(root: AppModule): unknown {
-    throw new Error('Method not implemented.');
+  create() {
+    const registry = this.manager.get<CoreModuleRegistry>(MODULE_REGISTRY);
+    this.manager.get<CoreAdapter>(ADAPTER).configure(registry);
   }
 
   connector(name: string, ...args: unknown[]): unknown {
