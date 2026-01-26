@@ -37,7 +37,10 @@ export class AppFactory implements CoreMainFactory {
 
   create() {
     const registry = this.manager.get<CoreModuleRegistry>(MODULE_REGISTRY);
-    this.manager.get<CoreAdapter>(ADAPTER).configure(registry);
+    const rootID = registry.getEntry('root');
+    if (!rootID) throw new Error('Root module not found');
+    const root = this.manager.get<{ greet: () => void }>(rootID);
+    this.manager.get<CoreAdapter>(ADAPTER).configure(root);
   }
 
   connector(name: string, ...args: unknown[]): unknown {

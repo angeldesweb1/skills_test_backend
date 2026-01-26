@@ -1,4 +1,9 @@
-import { CoreAdapter, CoreModuleRegistry, type ILogger } from '@lib/interfaces';
+import {
+  AppModule,
+  AppRootModule,
+  CoreAdapter,
+  type ILogger,
+} from '@lib/interfaces';
 import { inject, injectable } from 'inversify';
 import { getApplication } from './express.modules';
 import { Application } from 'express';
@@ -19,8 +24,8 @@ export class ExpressAdapter implements CoreAdapter {
     this.app = getApplication();
   }
 
-  configure(registry: CoreModuleRegistry) {
-    console.log(registry.allEntries());
+  configure(Module: AppRootModule) {
+    console.log(Module.children);
   }
 
   listen(...args: unknown[]): unknown {

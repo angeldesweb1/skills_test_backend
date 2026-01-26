@@ -1,6 +1,12 @@
+export interface AppRootModule {
+  children: unknown[];
+  globalMiddlewares: unknown[];
+}
+
 export interface AppModule {
-  controllers?: unknown[];
-  services?: unknown[];
+  children: unknown[];
+  moduleMiddlewares: unknown[];
+  controllers: unknown[];
 }
 
 export interface CoreConfigModule {
@@ -14,7 +20,7 @@ export interface CoreConfigModule {
 export interface CoreModuleRegistry {
   exists(key: string): boolean;
   addEntry(key: string, entry: string | symbol): void;
-  getEntry(key: string): unknown;
+  getEntry(key: string): string | symbol | undefined;
   allEntries(): unknown;
   deleteEntry(key: string): void;
 }

@@ -5,18 +5,10 @@ import { CoreAdapter, CoreModuleRegistry } from '@lib/interfaces';
 
 const manager = CoreManager.manage();
 
-interface DecoMeta {
-  name: string;
-  globalMiddlewares: any[];
-  root?: boolean;
-  base?: string;
-}
-
-export function Module({ name, globalMiddlewares, root, base }: DecoMeta) {
+export function Module(name: string) {
   return (target: any) => {
     const identifier = Symbol.for(name);
-    // const adapter = manager.get<CoreAdapter>(ADAPTER).name;
-    provide(identifier)(target);
     manager.get<CoreModuleRegistry>(MODULE_REGISTRY).addEntry(name, identifier);
+    manager.add(target, identifier, true);
   };
 }
