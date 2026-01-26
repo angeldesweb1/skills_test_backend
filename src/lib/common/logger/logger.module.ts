@@ -24,7 +24,7 @@ export class Logger implements ILogger {
       }
     });
 
-    return [color(`${prepend}(status): ${append} `), ...body];
+    return [color(`${prepend}${append} `), ...body];
   }
 
   getTag(key: TagKey): Tag {

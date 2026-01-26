@@ -8,32 +8,32 @@ import express, {
   Router,
   urlencoded,
 } from 'express';
-import cors from 'cors';
-import helmet from 'helmet';
 
-type Middleware = (req: Request, res: Response, next: NextFunction) => void;
+type Middleware = () => (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => void;
 
 export function getApplication(): Application {
   const app: Application = express();
   app.use(json());
   app.use(urlencoded({ extended: true }));
-  app.use(cors());
-  app.use(helmet());
   return app;
 }
 
 export function subscribeGlobalMiddlewares(
   app: Application,
-  middlewares: RequestHandler[],
+  middlewares: Middleware[],
 ): void {
-  middlewares.forEach((middleware) => app.use(middleware));
+  app.use(middlewares);
 }
 
 export function subscribeControllers(
   app: Application,
   controllers: RequestHandler[],
 ): void {
-  controllers.forEach((controller) => app.use(controller));
+  app.use(controllers);
 }
 
 export function subscribeRoute(
@@ -50,16 +50,15 @@ export function subscribeRoute(
   }
 }
 
-export function startExpressApp(
+export async function startExpressApp(
   app: Application,
   port: number | string,
   host?: string,
-): void {
-  app.listen({ port, host }, (err) => {
-    if (err) {
-      console.error(err);
-      process.exit(1);
-    }
-    console.log(`🚀 [server]: listening on port ${port}`);
-  });
+): Promise<{ success: boolean; error: Error | null }> {
+  try {
+    app.listen({ port, host });
+    return { success: true, error: null };
+  } catch (error) {
+    return { success: false, error: error as Error };
+  }
 }

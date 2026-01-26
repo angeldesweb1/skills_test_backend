@@ -6,6 +6,7 @@ async function bootstrap() {
   const config = await app.getConfig('dotenv');
   await app.mount('express');
   app.create();
+  await app.run(config?.port as string, config?.host as string);
 }
 
 bootstrap();

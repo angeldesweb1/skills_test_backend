@@ -1,6 +1,6 @@
 export interface AppRootModule {
   children: unknown[];
-  globalMiddlewares: unknown[];
+  globalMiddlewares: any[];
 }
 
 export interface AppModule {

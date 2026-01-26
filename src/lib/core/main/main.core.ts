@@ -51,7 +51,7 @@ export class AppFactory implements CoreMainFactory {
     throw new Error('Method not implemented.');
   }
 
-  run(...args: unknown[]): unknown {
-    throw new Error('Method not implemented.');
+  async run(port: string | number, host?: string): Promise<void> {
+    await this.manager.get<CoreAdapter>(ADAPTER).listen({ port, host });
   }
 }

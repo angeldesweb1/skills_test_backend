@@ -1,7 +1,7 @@
 export const loggerTags = {
-  builder: { icon: '🔧', flag: '[builder] ' },
-  server: { icon: '🌐', flag: '[server] ' },
-  debugger: { icon: '🐛', flag: '[debugger] ' },
+  builder: { icon: '🔧', flag: '[builder]' },
+  server: { icon: '🌐', flag: '[server]' },
+  debugger: { icon: '🐛', flag: '[debugger]' },
   default: { icon: '🤖', flag: '[logger]' },
 } as const;
 
@@ -15,7 +15,7 @@ export const loggerStatus = {
   info: 'ℹ️',
   launch: '🚀',
   debug: '🐛',
-  default: '',
+  default: '🌐',
 } as const;
 
 export type StatusKey = keyof typeof loggerStatus;

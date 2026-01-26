@@ -5,7 +5,11 @@ import {
   type ILogger,
 } from '@lib/interfaces';
 import { inject, injectable } from 'inversify';
-import { getApplication } from './express.modules';
+import {
+  getApplication,
+  startExpressApp,
+  subscribeGlobalMiddlewares,
+} from './express.modules';
 import { Application } from 'express';
 import { LOGGER } from '@lib/di/keys';
 import { SupportedAdapters } from '..';
@@ -25,11 +29,21 @@ export class ExpressAdapter implements CoreAdapter {
   }
 
   configure(Module: AppRootModule) {
-    console.log(Module.children);
+    if (!this.app) return;
+    subscribeGlobalMiddlewares(this.app, Module.globalMiddlewares);
   }
 
-  listen(...args: unknown[]): unknown {
-    throw new Error('Method not implemented.');
+  async listen({ port, host }: { port: string | number; host: string }) {
+    if (!this.app) return;
+    const result = await startExpressApp(this.app, port, host);
+    if (!result.success)
+      return this.logger
+        .tag('server')
+        .error('application failed to start', result.error);
+
+    return this.logger
+      .tag('server')
+      .rocket(`application running on port: ${port}`);
   }
 
   unmount(...args: unknown[]): unknown {
