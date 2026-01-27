@@ -9,10 +9,6 @@ const rootPath = isProduction
   ? path.resolve(__dirname, '..')
   : path.resolve(__dirname, '..');
 
-console.log({ rootPath });
-
-console.log(path.join(rootPath, 'src/lib'), path.join(rootPath, 'src/app'));
-
 moduleAlias.addAliases({
   '@lib': isProduction
     ? path.join(rootPath, 'dist/lib')

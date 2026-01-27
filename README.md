@@ -17,8 +17,6 @@
 
 ## Uso
 
-### Bun
-
 #### Descarga el repositorio
 
 Clona el repositorio en la carpeta de tu elección

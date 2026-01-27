@@ -11,7 +11,14 @@ import {
 import { injectable } from 'inversify';
 import { CoreManager } from './containter.core';
 import { ConfigModule } from '@lib/common/config/config.module';
-import { ADAPTER, DB, FACTORY, LOGGER, MODULE_REGISTRY } from '@lib/di/keys';
+import {
+  ADAPTER,
+  CONFIG,
+  DB,
+  FACTORY,
+  LOGGER,
+  MODULE_REGISTRY,
+} from '@lib/di/keys';
 import { getConnector, SupportedConnectors } from '@lib/connectors';
 
 @injectable()
@@ -32,9 +39,9 @@ export class AppFactory implements CoreMainFactory {
   }
 
   async getConfig(type: 'dotenv' | 'json', envFile?: string) {
-    this.manager.add<CoreConfigModule>(ConfigModule, 'APP_CONFIG', true);
+    this.manager.add<CoreConfigModule>(ConfigModule, CONFIG, true);
     const config = await this.manager
-      .get<ConfigModule>('APP_CONFIG')
+      .get<ConfigModule>(CONFIG)
       .env(type, envFile);
     return config?.getEnv();
   }
