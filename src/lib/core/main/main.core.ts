@@ -31,9 +31,11 @@ export class AppFactory implements CoreMainFactory {
     this.manager.get<CoreAdapter>(ADAPTER).mount();
   }
 
-  async getConfig(type: 'dotenv' | 'json') {
+  async getConfig(type: 'dotenv' | 'json', envFile?: string) {
     this.manager.add<CoreConfigModule>(ConfigModule, 'APP_CONFIG', true);
-    const config = await this.manager.get<ConfigModule>('APP_CONFIG').env(type);
+    const config = await this.manager
+      .get<ConfigModule>('APP_CONFIG')
+      .env(type, envFile);
     return config?.getEnv();
   }
 

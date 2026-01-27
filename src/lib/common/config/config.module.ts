@@ -11,8 +11,8 @@ export class ConfigModule implements CoreConfigModule {
 
   constructor(@inject(LOGGER) private logger: ILogger) {}
 
-  private async useEnv() {
-    const env = await readFile(join(cwd(), '.env'));
+  private async useEnv(envFile?: string) {
+    const env = await readFile(join(cwd(), envFile ?? '.env'));
     const vars = await require('dotenv').parse(env);
     this.envVars = Object.fromEntries(
       Object.entries(vars).map(([key, value]) => [key.toLowerCase(), value]),
@@ -23,8 +23,10 @@ export class ConfigModule implements CoreConfigModule {
     return Object.keys(this.envVars).includes(key);
   }
 
-  async env(type?: 'dotenv' | 'json') {
-    if (type === 'dotenv') await this.useEnv();
+  async env(type?: 'dotenv' | 'json', envFile?: string) {
+    if (type === 'dotenv') {
+      await this.useEnv(process.env.ENV ?? envFile);
+    }
     if (type === 'json') return;
     return this;
   }
