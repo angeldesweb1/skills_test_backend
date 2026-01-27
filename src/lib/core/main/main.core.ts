@@ -3,6 +3,7 @@ import {
   AppModule,
   CoreAdapter,
   CoreConfigModule,
+  CoreDBConnector,
   CoreMainFactory,
   CoreModuleRegistry,
   type ILogger,
@@ -10,7 +11,8 @@ import {
 import { injectable } from 'inversify';
 import { CoreManager } from './containter.core';
 import { ConfigModule } from '@lib/common/config/config.module';
-import { ADAPTER, FACTORY, LOGGER, MODULE_REGISTRY } from '@lib/di/keys';
+import { ADAPTER, DB, FACTORY, LOGGER, MODULE_REGISTRY } from '@lib/di/keys';
+import { getConnector, SupportedConnectors } from '@lib/connectors';
 
 @injectable()
 export class AppFactory implements CoreMainFactory {
@@ -37,14 +39,13 @@ export class AppFactory implements CoreMainFactory {
 
   create() {
     const registry = this.manager.get<CoreModuleRegistry>(MODULE_REGISTRY);
-    // const rootID = registry.getEntry('root');
-    // if (!rootID) throw new Error('Root module not found');
-    // const root = this.manager.get<{ greet: () => void }>(rootID);
     this.manager.get<CoreAdapter>(ADAPTER).configure(registry);
   }
 
-  connector(name: string, ...args: unknown[]): unknown {
-    throw new Error('Method not implemented.');
+  async connector(name: SupportedConnectors, connString: string) {
+    const connector = await getConnector(name);
+    this.manager.add<CoreDBConnector>(connector, DB, true);
+    await this.manager.get<CoreDBConnector>(DB).connect(connString);
   }
 
   env(type?: 'dotenv' | 'json'): unknown {
