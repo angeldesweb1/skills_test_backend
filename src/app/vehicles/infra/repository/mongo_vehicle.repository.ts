@@ -31,7 +31,7 @@ export class MongoVehicleRepository implements VehicleRepository {
   }
 
   async findById(id: string): Promise<VehicleEntity | null> {
-    const doc = await this.model.findById(id);
+    const doc = await this.model.findOne({ id });
     if (!doc) return null;
     return doc as unknown as VehicleEntity;
   }
@@ -40,12 +40,12 @@ export class MongoVehicleRepository implements VehicleRepository {
     id: string,
     input: UpdateVehicleDto,
   ): Promise<VehicleEntity | null> {
-    const doc = await this.model.findByIdAndUpdate(id, input, { new: true });
+    const doc = await this.model.findOneAndUpdate({ id }, input, { new: true });
     if (!doc) return null;
     return doc as unknown as VehicleEntity;
   }
 
   async delete(id: string): Promise<VehicleEntity | null> {
-    return await this.model.findByIdAndDelete(id);
+    return await this.model.findOneAndDelete({ id });
   }
 }

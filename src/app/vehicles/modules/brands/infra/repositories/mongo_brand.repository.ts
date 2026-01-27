@@ -25,18 +25,18 @@ export class MongoBrandRepository implements BrandRepository {
   }
 
   async findById(id: string): Promise<BrandEntity | null> {
-    const doc = await this.model.findById(id);
+    const doc = await this.model.findOne({ id });
     if (!doc) return null;
     return doc as unknown as BrandEntity;
   }
 
   async update(id: string, input: UpdateBrandDto): Promise<BrandEntity | null> {
-    const doc = await this.model.findByIdAndUpdate(id, input, { new: true });
+    const doc = await this.model.findOneAndUpdate({ id }, input, { new: true });
     if (!doc) return null;
     return doc as unknown as BrandEntity;
   }
 
   async delete(id: string): Promise<BrandEntity | null> {
-    return await this.model.findByIdAndDelete(id);
+    return await this.model.findOneAndDelete({ id });
   }
 }

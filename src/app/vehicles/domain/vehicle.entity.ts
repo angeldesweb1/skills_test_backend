@@ -4,7 +4,7 @@ import { ModelEntity } from '../modules/models/domain/model.entity';
 export interface VehicleEntity {
   id: string;
   model: ModelEntity;
-  make_date: Date;
+  year: string;
   status: 'displnible' | 'mantenimiento' | 'servicio';
   createdAt: Date;
   updatedAt: Date;

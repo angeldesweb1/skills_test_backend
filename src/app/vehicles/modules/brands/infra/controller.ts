@@ -4,7 +4,7 @@ import type { Req, Res, Next } from '@lib/interfaces/adapters/express.types';
 import { BrandService } from './services/brand.service';
 import { ZodService } from '@app/shared/validation.services';
 import { brandSchema } from './schemas/brand.schema';
-import { v4 as genuuid } from 'uuid';
+import { v4 as genuuid, validate } from 'uuid';
 
 @Controller('vehicles/brands')
 export class BranController {
@@ -19,10 +19,12 @@ export class BranController {
 
   @Get(':id', [ExpressAuthMiddleware])
   async findById(req: Req, res: Res, next: Next) {
-    const id = req.params.id;
-    if (!id || typeof id !== 'string') return next();
+    const id = this.validateParam(req.params.id as string, next);
+    if (!id) return;
+
     const result = await this.service.findById(id);
     if (!result.success) return res.status(400).json(result);
+
     return res.status(200).json(result);
   }
 
@@ -42,8 +44,8 @@ export class BranController {
 
   @Patch(':id', [ExpressAuthMiddleware])
   async update(req: Req, res: Res, next: Next) {
-    const id = req.params.id;
-    if (!id || typeof id !== 'string') return next();
+    const id = this.validateParam(req.params.id as string, next);
+    if (!id) return;
 
     const update = req.body;
     const result = await this.service.update(id, update);
@@ -55,8 +57,9 @@ export class BranController {
 
   @Del(':id', [ExpressAuthMiddleware])
   async delete(req: Req, res: Res, next: Next) {
-    const id = req.params.id;
-    if (!id || typeof id !== 'string') return next();
+    const id = this.validateParam(req.params.id as string, next);
+    if (!id) return;
+
     const result = await this.service.delete(id);
     if (!result.success) return res.status(400).json(result);
     return res.status(200).json(result);
@@ -65,5 +68,11 @@ export class BranController {
   private validate(input: any) {
     const invalidBody = this.validator.hasErrors(brandSchema, input);
     return !invalidBody;
+  }
+
+  private validateParam(id: string, next: Next) {
+    const isUUID = validate(id);
+    if (!isUUID) return next();
+    return id;
   }
 }

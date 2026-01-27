@@ -75,7 +75,7 @@ export class AuthService implements AuthUseCase {
   }
 
   private cleanUser(user: UserEntity) {
-    const { email, uuid, createdAt, updatedAt } = user;
-    return { email, uuid, createdAt, updatedAt };
+    const { _id, email, uuid, createdAt, updatedAt } = user;
+    return { _id, email, uuid, createdAt, updatedAt };
   }
 }

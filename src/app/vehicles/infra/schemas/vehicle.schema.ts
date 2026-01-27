@@ -3,7 +3,7 @@ import z from 'zod';
 export const createVehicleSchema = z.object({
   id: z.string(),
   model: z.string(),
-  make_date: z.date(),
+  year: z.string(),
   status: z.enum(
     ['disponible', 'mantenimiento', 'servicio'],
     'Debe seleccionar una opción válida',
@@ -13,7 +13,7 @@ export const createVehicleSchema = z.object({
 
 export const updateVehicleSchema = z.object({
   model: z.string().optional(),
-  make_date: z.date().optional(),
+  year: z.string().optional(),
   status: z
     .enum(
       ['disponible', 'mantenimiento', 'servicio'],

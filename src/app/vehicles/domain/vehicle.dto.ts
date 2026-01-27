@@ -1,7 +1,7 @@
 export interface CreateVehicleDto {
   id: string;
   model: string;
-  make_year: Date;
+  year: string;
   status: 'displnible' | 'mantenimiento' | 'servicio';
 }
 

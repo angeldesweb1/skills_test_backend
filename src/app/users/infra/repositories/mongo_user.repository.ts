@@ -9,7 +9,7 @@ export class MongoUserRepository implements UserRepository {
   async create(input: CreateUserDto): Promise<UserEntity | null> {
     const data = new this.model(input);
     const doc = await data.save();
-    return doc;
+    return doc as unknown as UserEntity;
   }
 
   async find(...args: unknown[]): Promise<UserEntity[]> {
@@ -19,19 +19,19 @@ export class MongoUserRepository implements UserRepository {
   async findByEmail(email: string): Promise<UserEntity | null> {
     const doc = await this.model.findOne({ email }).select('+password');
     if (!doc) return null;
-    return doc;
+    return doc as unknown as UserEntity;
   }
 
   async findById(id: string): Promise<UserEntity | null> {
     const doc = await this.model.findById(id);
     if (!doc) return null;
-    return doc;
+    return doc as unknown as UserEntity;
   }
 
   async update(id: string, input: UpdateUserDto): Promise<UserEntity | null> {
     const doc = await this.model.findByIdAndUpdate(id, input, { new: true });
     if (!doc) return null;
-    return doc;
+    return doc as unknown as UserEntity;
   }
 
   async delete(id: string): Promise<UserEntity | null> {

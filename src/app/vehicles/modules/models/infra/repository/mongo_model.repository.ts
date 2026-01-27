@@ -27,18 +27,18 @@ export class MongoModelRepository implements ModelRepository {
   }
 
   async findById(id: string): Promise<ModelEntity | null> {
-    const doc = await this.model.findById(id);
+    const doc = await this.model.findOne({ id });
     if (!doc) return null;
     return doc as unknown as ModelEntity;
   }
 
   async update(id: string, input: UpdateModelDto): Promise<ModelEntity | null> {
-    const doc = await this.model.findByIdAndUpdate(id, input, { new: true });
+    const doc = await this.model.findOneAndUpdate({ id }, input, { new: true });
     if (!doc) return null;
     return doc as unknown as ModelEntity;
   }
 
   async delete(id: string): Promise<ModelEntity | null> {
-    return await this.model.findByIdAndDelete(id);
+    return await this.model.findOneAndDelete({ id });
   }
 }

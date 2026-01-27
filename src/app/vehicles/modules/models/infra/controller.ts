@@ -4,7 +4,7 @@ import type { Req, Res, Next } from '@lib/interfaces/adapters/express.types';
 import { ModelService } from './services/model.service';
 import { ZodService } from '@app/shared/validation.services';
 import { modelSchema } from './schemas/model.schema';
-import { v4 as genuuid } from 'uuid';
+import { v4 as genuuid, validate } from 'uuid';
 
 @Controller('vehicles/models')
 export class ModelController {
@@ -19,8 +19,9 @@ export class ModelController {
 
   @Get(':id', [ExpressAuthMiddleware])
   async findById(req: Req, res: Res, next: Next) {
-    const id = req.params.id;
-    if (!id || typeof id !== 'string') return next();
+    const id = this.validateParam(req.params.id as string, next);
+    if (!id) return;
+
     const result = await this.service.findById(id);
     if (!result.success) return res.status(400).json(result);
     return res.status(200).json(result);
@@ -31,7 +32,7 @@ export class ModelController {
     const id = genuuid();
     const input = { id, ...req.body };
 
-    const isValid = this.validate(input);
+    const isValid = this.validatePost(input);
     if (!isValid) return res.status(400).json({ message: 'Invalid body' });
 
     const result = await this.service.create(input);
@@ -42,8 +43,8 @@ export class ModelController {
 
   @Patch(':id', [ExpressAuthMiddleware])
   async update(req: Req, res: Res, next: Next) {
-    const id = req.params.id;
-    if (!id || typeof id !== 'string') return next();
+    const id = this.validateParam(req.params.id as string, next);
+    if (!id) return;
 
     const update = req.body;
     const result = await this.service.update(id, update);
@@ -55,15 +56,21 @@ export class ModelController {
 
   @Del(':id', [ExpressAuthMiddleware])
   async delete(req: Req, res: Res, next: Next) {
-    const id = req.params.id;
-    if (!id || typeof id !== 'string') return next();
+    const id = this.validateParam(req.params.id as string, next);
+    if (!id) return;
     const result = await this.service.delete(id);
     if (!result.success) return res.status(400).json(result);
     return res.status(200).json(result);
   }
 
-  private validate(input: any) {
+  private validatePost(input: any) {
     const invalidBody = this.validator.hasErrors(modelSchema, input);
     return !invalidBody;
+  }
+
+  private validateParam(id: string, next: Next) {
+    const isUUID = validate(id);
+    if (!isUUID) return next();
+    return id;
   }
 }

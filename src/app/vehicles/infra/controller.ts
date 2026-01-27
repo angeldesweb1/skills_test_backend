@@ -7,7 +7,7 @@ import {
   createVehicleSchema,
   updateVehicleSchema,
 } from './schemas/vehicle.schema';
-import { v4 as genuuid } from 'uuid';
+import { v4 as genuuid, validate } from 'uuid';
 
 @Controller('vehicles')
 export class VehiclesController {
@@ -22,8 +22,8 @@ export class VehiclesController {
 
   @Get(':id', [ExpressAuthMiddleware])
   async findById(req: Req, res: Res, next: Next) {
-    const id = req.params.id;
-    if (!id || typeof id !== 'string') return next();
+    const id = this.validateParam(req.params.id as string, next);
+    if (!id) return;
     const result = await this.service.findById(id);
     if (!result.success) return res.status(400).json(result);
     return res.status(200).json(result);
@@ -33,6 +33,8 @@ export class VehiclesController {
   async create(req: Req, res: Res, next: Next) {
     const id = genuuid();
     const input = { id, ...req.body };
+
+    console.log({ input });
 
     const isValid = this.validatePost(input);
     if (!isValid) return res.status(400).json({ message: 'Invalid body' });
@@ -45,8 +47,8 @@ export class VehiclesController {
 
   @Patch(':id', [ExpressAuthMiddleware])
   async update(req: Req, res: Res, next: Next) {
-    const id = req.params.id;
-    if (!id || typeof id !== 'string') return next();
+    const id = this.validateParam(req.params.id as string, next);
+    if (!id) return;
 
     const update = req.body;
 
@@ -62,8 +64,8 @@ export class VehiclesController {
 
   @Del(':id', [ExpressAuthMiddleware])
   async delete(req: Req, res: Res, next: Next) {
-    const id = req.params.id;
-    if (!id || typeof id !== 'string') return next();
+    const id = this.validateParam(req.params.id as string, next);
+    if (!id) return;
     const result = await this.service.delete(id);
     if (!result.success) return res.status(400).json(result);
     return res.status(200).json(result);
@@ -77,5 +79,11 @@ export class VehiclesController {
   private validatePatch(input: any) {
     const invalidBody = this.validator.hasErrors(updateVehicleSchema, input);
     return !invalidBody;
+  }
+
+  private validateParam(id: string, next: Next) {
+    const isUUID = validate(id);
+    if (!isUUID) return next();
+    return id;
   }
 }
