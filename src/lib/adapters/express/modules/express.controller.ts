@@ -12,6 +12,7 @@ export function handleController(controller: any) {
   );
   if (!routes.length) return null;
   routes.forEach((route) => {
+    if (!route.method) return;
     routeHandler[route.method](
       route.path,
       ...route.middlewares,

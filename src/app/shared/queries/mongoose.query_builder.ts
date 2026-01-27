@@ -14,6 +14,40 @@ export class MongooseQueryBuilder<T> {
     };
   }
 
+  parseQuery(
+    queryParams: Record<string, any>,
+    filterBlacklist: string[] = [],
+  ): this {
+    const { limit, offset, sortBy, order, ...filters } = queryParams;
+
+    if (limit) this.setLimit(Number(limit));
+    if (offset) this.setOffset(Number(offset));
+
+    if (sortBy) {
+      this.sortBy(sortBy, order === 'desc' ? 'desc' : 'asc');
+    }
+
+    const blacklist = [
+      'limit',
+      'offset',
+      'sortBy',
+      'order',
+      ...filterBlacklist,
+    ];
+
+    Object.keys(filters).forEach((key) => {
+      if (!blacklist.includes(key) && filters[key] !== undefined) {
+        let value = filters[key];
+        if (value === 'true') value = true;
+        if (value === 'false') value = false;
+
+        this.where(key, value);
+      }
+    });
+
+    return this;
+  }
+
   with(relation: string | any): this {
     this.populations.push(relation);
     return this;
