@@ -1,4 +1,4 @@
-import 'global.app';
+import './global.app';
 import { AppFactory } from '@lib/core/main/main.core';
 import '@app/main';
 
