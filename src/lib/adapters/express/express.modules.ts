@@ -1,20 +1,7 @@
+import { DecoratedRoute } from '@lib/decorators';
 import { AppModule, AppRootModule } from '@lib/interfaces';
-import express, {
-  Application,
-  json,
-  NextFunction,
-  RequestHandler,
-  Request,
-  Response,
-  Router,
-  urlencoded,
-} from 'express';
-
-type Middleware = () => (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => void;
+import express, { Application, json, Router, urlencoded } from 'express';
+import { handleController } from './modules/express.controller';
 
 export function getApp(): Application {
   const app: Application = express();
@@ -25,12 +12,34 @@ export function getApp(): Application {
 
 export function handleModule(module: new () => AppModule) {
   const controllers = Reflect.getMetadata('module:controllers', module);
-  console.log(controllers);
+  const name = Reflect.getMetadata('module:base', module);
+  let routers: { base: string; router: Router }[] = [];
+  controllers.forEach((controller: any) => {
+    const controllerRouter = handleController(controller);
+    routers = [...routers, controllerRouter].filter(
+      (router) => router !== null,
+    );
+  });
+
+  return routers;
 }
 
-export function handleRoot(root: new () => AppRootModule) {
-  const children = Reflect.getMetadata('module:children', root);
-  children.forEach((module: new () => AppModule) => handleModule(module));
+export function handleRoot(app: Application, root: new () => AppRootModule) {
+  const children: (new () => AppModule)[] = Reflect.getMetadata(
+    'module:children',
+    root,
+  );
+  const rootBase = Reflect.getMetadata('module:base', root);
+  const mainHandler = Router();
+  children.forEach((module) => {
+    const current = handleModule(module);
+    current.forEach((router) => {
+      mainHandler.use(router.base, router.router);
+    });
+  });
+
+  app.use(rootBase, mainHandler);
+  return app;
 }
 
 export async function startExpressApp(

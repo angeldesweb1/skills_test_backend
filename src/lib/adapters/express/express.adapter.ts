@@ -1,4 +1,10 @@
-import { AppRootModule, CoreAdapter, CoreModuleRegistry, RegEntry, type ILogger } from '@lib/interfaces';
+import {
+  AppRootModule,
+  CoreAdapter,
+  CoreModuleRegistry,
+  RegEntry,
+  type ILogger,
+} from '@lib/interfaces';
 import { inject, injectable } from 'inversify';
 import { getApp, handleRoot, startExpressApp } from './express.modules';
 import { Application } from 'express';
@@ -22,24 +28,24 @@ export class ExpressAdapter implements CoreAdapter {
   }
 
   configure(registry: CoreModuleRegistry) {
-    if (!this.app) return;
+    if (!this.app) throw new Error('fist implement app adapter');
     const root: RegEntry | undefined = registry.getEntry('root');
-    if (!root) return;
+    if (!root) throw new Error('Set a root module');
     const module = root.module as new () => AppRootModule;
-    handleRoot(module);
-    // Module.children.forEach((Module) => {
-    //   const meta = Reflect.getMetadata('module:name', Module as any);
-    //   console.log({ meta });
-    // });
-    // subscribeGlobalMiddlewares(this.app, Module.globalMiddlewares);
+    handleRoot(this.app, module);
   }
 
   async listen({ port, host }: { port: string | number; host: string }) {
     if (!this.app) return;
     const result = await startExpressApp(this.app, port, host);
-    if (!result.success) return this.logger.tag('server').error('application failed to start', result.error);
+    if (!result.success)
+      return this.logger
+        .tag('server')
+        .error('application failed to start', result.error);
 
-    return this.logger.tag('server').rocket(`application running on port: ${port}`);
+    return this.logger
+      .tag('server')
+      .rocket(`application running on port: ${port}`);
   }
 
   unmount(...args: unknown[]): unknown {

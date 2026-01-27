@@ -1,3 +1,5 @@
+import { prototype } from 'node:events';
+
 interface RouteDefinition {
   path: string;
   httpMethod: 'get' | 'post' | 'put' | 'delete' | 'patch';
@@ -25,10 +27,7 @@ export function createRouteDecorator(
   };
 }
 
-//export const Get = (path?: string, middlewares?: any[]) => {};
-// createRouteDecorator('get', path, middlewares);
-
-export function Get(path: string = '') {
+export function Get(path: string = '', middlewares: any[] = []) {
   return (
     target: any,
     propertyKey: string | symbol,
@@ -36,12 +35,13 @@ export function Get(path: string = '') {
   ) => {
     Reflect.defineMetadata('method', 'get', target, propertyKey);
     Reflect.defineMetadata('path', `/${path}`, target, propertyKey);
+    Reflect.defineMetadata('middlewares', middlewares, target, propertyKey);
 
     return descriptor;
   };
 }
 
-export function Post(path: string = '') {
+export function Post(path: string = '', middlewares: any[] = []) {
   return (
     target: any,
     propertyKey: string | symbol,
@@ -49,6 +49,7 @@ export function Post(path: string = '') {
   ) => {
     Reflect.defineMetadata('method', 'post', target, propertyKey);
     Reflect.defineMetadata('path', `/${path}`, target, propertyKey);
+    Reflect.defineMetadata('middlewares', middlewares, target, propertyKey);
 
     return descriptor;
   };
