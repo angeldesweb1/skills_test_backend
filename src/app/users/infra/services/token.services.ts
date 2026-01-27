@@ -5,6 +5,7 @@ import { CONFIG } from '@lib/di/keys';
 import { injectable } from 'inversify';
 import { encode, decode } from 'jwt-simple';
 import day from 'dayjs';
+import 'dotenv/config';
 
 interface Payload {
   sub: string;
@@ -14,13 +15,11 @@ interface Payload {
 
 @injectable()
 export class JwtService {
-  private manager: CoreManager = CoreManager.manage();
+  //TO-DO migrate to handle config private manager: CoreManager = CoreManager.manage();
   private secret: string;
 
   constructor() {
-    this.secret = this.manager
-      .get<ConfigModule>(CONFIG)
-      .get('jwt_secret') as string;
+    this.secret = process.env.JWT_SECRET as string;
   }
 
   createToken(user: UserEntity): string {
