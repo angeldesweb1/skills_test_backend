@@ -3,6 +3,7 @@ import { PaginatedResult, QueryOptions } from './interfaces';
 
 export class MongooseQueryBuilder<T> {
   private query: QueryOptions;
+  private populations: any[] = [];
 
   constructor() {
     this.query = {
@@ -11,6 +12,11 @@ export class MongooseQueryBuilder<T> {
       offset: 0,
       sort: {},
     };
+  }
+
+  with(relation: string | any): this {
+    this.populations.push(relation);
+    return this;
   }
 
   where(field: string, value: any): this {
@@ -36,8 +42,12 @@ export class MongooseQueryBuilder<T> {
   }
 
   apply(model: Model<any>) {
-    return model
-      .find(this.query.filters)
+    const query = model.find(this.query.filters);
+
+    this.populations.forEach((relation) => {
+      query.populate(relation);
+    });
+    return query
       .sort(this.query.sort)
       .skip(this.query.offset)
       .limit(this.query.limit);
