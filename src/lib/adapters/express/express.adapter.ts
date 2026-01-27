@@ -1,6 +1,6 @@
 import { AppRootModule, CoreAdapter, CoreModuleRegistry, RegEntry, type ILogger } from '@lib/interfaces';
 import { inject, injectable } from 'inversify';
-import { getApp, startExpressApp, addMiddlewares } from './express.modules';
+import { getApp, handleRoot, startExpressApp } from './express.modules';
 import { Application } from 'express';
 import { LOGGER } from '@lib/di/keys';
 import { SupportedAdapters } from '..';
@@ -25,10 +25,8 @@ export class ExpressAdapter implements CoreAdapter {
     if (!this.app) return;
     const root: RegEntry | undefined = registry.getEntry('root');
     if (!root) return;
-    const module = root.module;
-    console.log(Reflect.getMetadata('module:base', module));
-    console.log(Reflect.getMetadata('module:middlewares', module));
-    console.log(Reflect.getMetadata('module:children', module));
+    const module = root.module as new () => AppRootModule;
+    handleRoot(root.module);
 
     // Module.children.forEach((Module) => {
     //   const meta = Reflect.getMetadata('module:name', Module as any);

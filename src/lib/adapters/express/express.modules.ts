@@ -1,3 +1,4 @@
+import { AppRootModule } from '@lib/interfaces';
 import express, {
   Application,
   json,
@@ -18,12 +19,9 @@ export function getApp(): Application {
   return app;
 }
 
-export function addMiddlewares(app: Application, middlewares: RequestHandler[]): void {
-  app.use(middlewares);
-}
-
-export function addControllers(app: Application, controllers: RequestHandler[]): void {
-  app.use(controllers);
+export function handleRoot(root: new () => AppRootModule) {
+  const children = Reflect.getMetadata('module:children', root);
+  console.log(children);
 }
 
 export async function startExpressApp(

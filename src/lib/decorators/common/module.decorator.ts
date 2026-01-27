@@ -11,6 +11,12 @@ interface EntryModuleParams {
   base?: string;
 }
 
+interface ModuleParams {
+  name: string;
+  controllers: unknown[];
+  moduleMiddlewares?: unknown[];
+}
+
 export function EntryModule({ children, globalMiddlewares, base }: EntryModuleParams) {
   return (target: any) => {
     registry.addEntry('root', { children, name: 'root', module: target });
@@ -21,9 +27,9 @@ export function EntryModule({ children, globalMiddlewares, base }: EntryModulePa
   };
 }
 
-export function Module({ name, children }: { name: string; children: any[] }) {
+export function Module({ name, controllers, moduleMiddlewares }: ModuleParams) {
   return (target: any) => {
-    Reflect.defineMetadata('module:name', name, target.constructor);
-    Reflect.defineMetadata('module:children', children, target.constructor);
+    Reflect.defineMetadata('module:name', name, target);
+    Reflect.defineMetadata('module:controllers', controllers, target);
   };
 }

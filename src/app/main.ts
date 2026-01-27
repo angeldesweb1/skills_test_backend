@@ -1,4 +1,4 @@
-import { EntryModule, Module } from '@lib/decorators/module.decorator';
+import { EntryModule, Module } from '@lib/decorators/common/module.decorator';
 import { injectable } from 'inversify';
 import { VehiclesModule } from './vehicles/main';
 import { UsersModule } from './users/main';
