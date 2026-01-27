@@ -2,6 +2,7 @@ import { DecoratedRoute } from '@lib/decorators';
 import { AppModule, AppRootModule } from '@lib/interfaces';
 import express, { Application, json, Router, urlencoded } from 'express';
 import { handleController } from './modules/express.controller';
+import { ExpressNotFound } from '@app/shared/middlewares/notfound.middlewares';
 
 export function getApp(): Application {
   const app: Application = express();
@@ -12,7 +13,6 @@ export function getApp(): Application {
 
 export function handleModule(module: new () => AppModule) {
   const controllers = Reflect.getMetadata('module:controllers', module);
-  const name = Reflect.getMetadata('module:base', module);
   let routers: { base: string; router: Router }[] = [];
   controllers.forEach((controller: any) => {
     const controllerRouter = handleController(controller);
@@ -48,6 +48,7 @@ export async function startExpressApp(
   host?: string,
 ): Promise<{ success: boolean; error: Error | null }> {
   try {
+    app.use(ExpressNotFound);
     app.listen({ port, host });
     return { success: true, error: null };
   } catch (error) {

@@ -7,26 +7,6 @@ interface RouteDefinition {
   middlewares?: any[]; // Por si decides añadir middlewares luego
 }
 
-export function createRouteDecorator(
-  method: RouteDefinition['httpMethod'],
-  path?: string,
-  middlewares?: any[],
-) {
-  return (path: string, middlewares: any[] = []): MethodDecorator => {
-    return (
-      target: Object,
-      propertyKey: string | symbol,
-      descriptor: TypedPropertyDescriptor<any>,
-    ) => {
-      Reflect.defineMetadata('path', `/${path}`, target, propertyKey);
-      Reflect.defineMetadata('method', method, target, propertyKey);
-      Reflect.defineMetadata('middlewares', middlewares, target, propertyKey);
-
-      return descriptor;
-    };
-  };
-}
-
 export function Get(path: string = '', middlewares: any[] = []) {
   return (
     target: any,
@@ -55,7 +35,7 @@ export function Post(path: string = '', middlewares: any[] = []) {
   };
 }
 
-export function Put(path: string = '') {
+export function Put(path: string = '', middlewares: any[] = []) {
   return (
     target: any,
     propertyKey: string | symbol,
@@ -63,12 +43,13 @@ export function Put(path: string = '') {
   ) => {
     Reflect.defineMetadata('method', 'put', target, propertyKey);
     Reflect.defineMetadata('path', `/${path}`, target, propertyKey);
+    Reflect.defineMetadata('middlewares', middlewares, target, propertyKey);
 
     return descriptor;
   };
 }
 
-export function Patch(path: string = '') {
+export function Patch(path: string = '', middlewares: any[] = []) {
   return (
     target: any,
     propertyKey: string | symbol,
@@ -76,12 +57,13 @@ export function Patch(path: string = '') {
   ) => {
     Reflect.defineMetadata('method', 'patch', target, propertyKey);
     Reflect.defineMetadata('path', `/${path}`, target, propertyKey);
+    Reflect.defineMetadata('middlewares', middlewares, target, propertyKey);
 
     return descriptor;
   };
 }
 
-export function Del(path: string = '') {
+export function Del(path: string = '', middlewares: any[] = []) {
   return (
     target: any,
     propertyKey: string | symbol,
@@ -89,16 +71,8 @@ export function Del(path: string = '') {
   ) => {
     Reflect.defineMetadata('method', 'delete', target, propertyKey);
     Reflect.defineMetadata('path', `/${path}`, target, propertyKey);
+    Reflect.defineMetadata('middlewares', middlewares, target, propertyKey);
 
     return descriptor;
   };
 }
-
-// export const Put = (path?: string, middlewares?: any[]) =>
-//   createRouteDecorator('put', path, middlewares);
-
-// export const Patch = (path?: string, middlewares?: any[]) =>
-//   createRouteDecorator('patch', path, middlewares);
-
-// export const Del = (path?: string, middlewares?: any[]) =>
-//   createRouteDecorator('delete', path, middlewares);

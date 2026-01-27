@@ -2,20 +2,16 @@ import { ExpressAuthMiddleware } from '@app/shared/middlewares/auth.middlewares'
 import { Controller, Del, Get, Patch, Post } from '@lib/decorators';
 import type { Req, Res, Next } from '@lib/interfaces/adapters/express.types';
 
-@Controller('vehicles')
-export class VehiclesController {
+@Controller('vehicles/brands')
+export class BranController {
   @Get('', [ExpressAuthMiddleware])
   async read(req: Req, res: Res, next: Next) {
-    return res.status(200).json({ message: 'Hello from veh' });
+    return res.status(200).json({ message: 'Hello from brands' });
   }
 
   @Get(':id', [ExpressAuthMiddleware])
   async findById(req: Req, res: Res, next: Next) {
-    const id = req.params.id;
-
-    if (!id || id.length < 10) return next();
-
-    return res.status(200).json({ message: 'Hello from list' });
+    return res.status(200).json({ message: 'Hello from brand' });
   }
 
   @Post('', [ExpressAuthMiddleware])
