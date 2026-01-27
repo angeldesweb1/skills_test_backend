@@ -5,7 +5,11 @@ export function Controller(name: string) {
     const methodNames = Object.getOwnPropertyNames(prototype);
 
     methodNames.forEach((methodName) => {
-      console.log(methodName);
+      if (methodName === 'constructor') return;
+      const method = Reflect.getMetadata('method', prototype, methodName);
+      const path = Reflect.getMetadata('path', prototype, methodName);
+
+      console.log(`[${method}]: path: ${path}`);
     });
   };
 }

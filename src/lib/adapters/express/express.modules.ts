@@ -1,4 +1,4 @@
-import { AppRootModule } from '@lib/interfaces';
+import { AppModule, AppRootModule } from '@lib/interfaces';
 import express, {
   Application,
   json,
@@ -10,7 +10,11 @@ import express, {
   urlencoded,
 } from 'express';
 
-type Middleware = () => (req: Request, res: Response, next: NextFunction) => void;
+type Middleware = () => (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => void;
 
 export function getApp(): Application {
   const app: Application = express();
@@ -19,9 +23,14 @@ export function getApp(): Application {
   return app;
 }
 
+export function handleModule(module: new () => AppModule) {
+  const controllers = Reflect.getMetadata('module:controllers', module);
+  console.log(controllers);
+}
+
 export function handleRoot(root: new () => AppRootModule) {
   const children = Reflect.getMetadata('module:children', root);
-  console.log(children);
+  children.forEach((module: new () => AppModule) => handleModule(module));
 }
 
 export async function startExpressApp(

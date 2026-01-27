@@ -8,6 +8,7 @@ const registry = manager.get<CoreModuleRegistry>(MODULE_REGISTRY);
 interface EntryModuleParams {
   children: Module[];
   globalMiddlewares?: any[];
+  mainController?: any;
   base?: string;
 }
 
@@ -17,13 +18,18 @@ interface ModuleParams {
   moduleMiddlewares?: unknown[];
 }
 
-export function EntryModule({ children, globalMiddlewares, base }: EntryModuleParams) {
+export function EntryModule({
+  children,
+  globalMiddlewares,
+  base,
+}: EntryModuleParams) {
   return (target: any) => {
     registry.addEntry('root', { children, name: 'root', module: target });
     Reflect.defineMetadata('module:name', 'root', target);
     Reflect.defineMetadata('module:children', children, target);
     Reflect.defineMetadata('module:base', `/${base}`, target);
-    if (globalMiddlewares) Reflect.defineMetadata('module:middlewares', globalMiddlewares, target);
+    if (globalMiddlewares)
+      Reflect.defineMetadata('module:middlewares', globalMiddlewares, target);
   };
 }
 

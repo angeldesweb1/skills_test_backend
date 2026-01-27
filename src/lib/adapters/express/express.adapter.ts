@@ -26,8 +26,7 @@ export class ExpressAdapter implements CoreAdapter {
     const root: RegEntry | undefined = registry.getEntry('root');
     if (!root) return;
     const module = root.module as new () => AppRootModule;
-    handleRoot(root.module);
-
+    handleRoot(module);
     // Module.children.forEach((Module) => {
     //   const meta = Reflect.getMetadata('module:name', Module as any);
     //   console.log({ meta });
