@@ -1,4 +1,5 @@
 import { ExpressAuthMiddleware } from '@app/shared/middlewares/auth.middlewares';
+import { QueryOptions } from '@app/shared/queries/interfaces';
 import { Controller, Del, Get, Patch, Post } from '@lib/decorators';
 import type { Req, Res, Next } from '@lib/interfaces/adapters/express.types';
 
