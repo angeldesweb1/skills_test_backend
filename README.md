@@ -54,3 +54,162 @@ Se agregó un Dockerfile y un docker-compose.yml. con la configuración necesari
 #### Entorno
 
 Al igual que para el entorno de desarrollo se ha dejado un archivo de entorno llamado .env.container.example, agrega en la raíz del proyecto un archivo .env.container y copia el contenido en el mismo, sustituyendo por tus variables de entorno
+
+# Endpoints disponibles
+
+Debido a algunos contratiempos me fue imposible agregar un swagger con las especificaciones del servicio. A continuación dejaré los endpoints disponibles e intentaré agregar toda la información de cada uno de ellos
+
+### Base URL
+
+- /api/v1
+
+### Autenticación
+
+- POST /auth/login
+  - Body
+    email: string
+    password: string
+  - Response
+    token: string
+    user: User | null
+    success: boolean
+    error: string | null
+- POST /auth/register
+  - Body
+    email: string
+    password: string
+  - Response
+    token: string
+    user: User | null
+    success: boolean
+    error: string | null
+
+### Vehículos
+
+TYPES
+
+- Bran
+  id: string
+  name: string
+
+- Model
+  id: string
+  name: string
+  brand: Brand
+
+- Vehicle
+  id: string
+  model: Model
+  year: number
+  status: 'disponible' | 'servicio' | 'mantenimiento'
+  createdAt: string
+  updatedAt: string
+  createdBy: User
+  updatedBy: User
+
+- Pagination
+  total: number
+  totalItems: number
+  currentPage: number
+  perPage: number
+  totalPages: number
+  hasNextPage: false
+  hasPreviousPage: false
+  nextPage: null
+  previousPage: null
+
+- GET /vehicles
+  - Response
+    docs: Vehicle[]
+    pagination: Pagination
+
+- POST /vehicles
+  - Body
+    model: string
+    year: number
+    createdBy: string
+
+- PATCH /vehicles/:id
+  - Params
+    id: string
+  - Body
+    model?: string
+    year?: number
+    status?: 'disponible' | 'servicio' | 'mantenimiento'
+    updatedBy: string
+    - Response
+      vehicle: Vehicle | null
+      success: boolean
+      error: string | null
+
+- DELETE /vehicles/:id
+  - Params
+    id: string
+  - Response
+    success: boolean
+    error: string | null
+    vehicle: Vehicle | null
+
+- GET /vehicles/brands
+  - Response
+    docs: Brand[]
+    pagination: Pagination
+
+- GET /vehicles/models
+  - Response
+    docs: Model[]
+    pagination: Pagination
+
+- POST /vehicles/brands
+  - Body
+    name: string
+  - Response
+    brand: Brand | null
+    success: boolean
+    error: string | null
+
+- POST /vehicles/models
+  - Body
+    name: string
+    brand: string
+  - Response
+    model: Model | null
+    success: boolean
+    error: string | null
+
+- PATCH /vehicles/brands/:id
+  - Params
+    id: string
+  - Body
+    name?: string
+  - Response
+    brand: Brand | null
+    success: boolean
+    error: string | null
+
+- PATCH /vehicles/models/:id
+  - Params
+    id: string
+  - Body
+    name?: string
+    brand?: string
+  - Response
+    model: Model | null
+    success: boolean
+    error: string | null
+
+- DELETE /vehicles/brands/:id
+  - Params
+    id: string
+  - Response
+    success: boolean
+    error: string | null
+    brand: Brand | null
+
+- DELETE /vehicles/models/:id
+  - Params
+    id: string
+  - Response
+    success: boolean
+    error: string | null
+    model: Model | null

@@ -3,9 +3,18 @@ import { AppModule, AppRootModule } from '@lib/interfaces';
 import express, { Application, json, Router, urlencoded } from 'express';
 import { handleController } from './modules/express.controller';
 import { ExpressNotFound } from '@app/shared/middlewares/notfound.middlewares';
+import cors from 'cors';
+import { ExpressErrorMiddleware } from '@app/shared/middlewares/globalerror.middleware';
 
 export function getApp(): Application {
   const app: Application = express();
+  app.use(
+    cors({
+      origin: '*',
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+      credentials: true,
+    }),
+  );
   app.use(json());
   app.use(urlencoded({ extended: true }));
   return app;
@@ -49,6 +58,7 @@ export async function startExpressApp(
 ): Promise<{ success: boolean; error: Error | null }> {
   try {
     app.use(ExpressNotFound);
+    app.use(ExpressErrorMiddleware);
     app.listen({ port, host });
     return { success: true, error: null };
   } catch (error) {

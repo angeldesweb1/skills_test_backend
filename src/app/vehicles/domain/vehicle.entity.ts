@@ -5,7 +5,7 @@ export interface VehicleEntity {
   id: string;
   model: ModelEntity;
   year: string;
-  status: 'displnible' | 'mantenimiento' | 'servicio';
+  status: 'disponible' | 'mantenimiento' | 'servicio';
   createdAt: Date;
   updatedAt: Date;
   createdBy: UserEntity;
