@@ -33,9 +33,6 @@ export class VehiclesController {
   async create(req: Req, res: Res, next: Next) {
     const id = genuuid();
     const input = { id, ...req.body };
-
-    console.log({ input });
-
     const isValid = this.validatePost(input);
     if (!isValid) return res.status(400).json({ message: 'Invalid body' });
 
@@ -84,9 +81,6 @@ export class VehiclesController {
 
   private validateParam(id: string, next: Next) {
     const isUUID = validate(id);
-    console.log({
-      isUUID,
-    });
     if (!isUUID) return next();
     return id;
   }

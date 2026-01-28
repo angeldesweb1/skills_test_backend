@@ -1,10 +1,11 @@
 #!/usr/bin/env node
-
+const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 const dotenv = require('dotenv');
 
+const salt = bcrypt.genSaltSync(10);
 dotenv.config();
 
 const {
@@ -41,6 +42,12 @@ const runSeed = async () => {
     const users = loadJSON('users.json');
     const vehicles = loadJSON('vehicles.json');
 
+    console.log('🔑 Hash de contraseñas...');
+    let auth = users.map((u) => {
+      u.password = bcrypt.hashSync(u.password, salt);
+      return u;
+    });
+
     console.log('🧹 Limpiando colecciones...');
     await Promise.all([
       BrandModel.deleteMany({}),
@@ -51,7 +58,7 @@ const runSeed = async () => {
 
     console.log('📦 Insertando datos maestros...');
     await BrandModel.insertMany(brands);
-    await UserModel.insertMany(users);
+    await UserModel.insertMany(auth);
 
     console.log('📦 Estableciendo relaciones...');
     await ModelModel.insertMany(models);
