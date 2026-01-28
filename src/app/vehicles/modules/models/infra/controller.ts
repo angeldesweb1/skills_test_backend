@@ -27,6 +27,14 @@ export class ModelController {
     return res.status(200).json(result);
   }
 
+  @Get('brand/:brand', [ExpressAuthMiddleware])
+  async findByBrand(req: Req, res: Res, next: Next) {
+    const brand = req.params.brand;
+    const result = await this.service.findByBrand(brand as string);
+    if (!result.success) return res.status(400).json(result);
+    return res.status(200).json(result);
+  }
+
   @Post('', [ExpressAuthMiddleware])
   async create(req: Req, res: Res, next: Next) {
     const id = genuuid();

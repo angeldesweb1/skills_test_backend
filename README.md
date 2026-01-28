@@ -35,6 +35,8 @@ Crea en la raíz del proyecto un archivo .env y copia el contenido del archivo .
 
 Puedes hacer una carga inicial de la base de datos siguiendo los pasos a continuación:
 
+> ⚠️ Los id que se generan con el seed no son uuid's aprobados, solo tienen una máscara similar sin cumplir con las reglas de un uuid. Esto se hizo así con la finalidad del relacionar con mayor practicidad los documentos del seed, sin embargo la api cuenta con algunos endpoints (modificar, eliminar) que validan que el id sea un uuid para atender la petición, por lo que recomiendo generar algunos documentos de prueba con sus credenciales para ver todos los endpoints sin ningún contratiempo.
+
 - Teniendo el archivo .env asegurate de tener una variable de entorno DB_URI con tu string de conección a mongodb
 
 - Instala las dependencias

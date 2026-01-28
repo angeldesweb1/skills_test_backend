@@ -11,7 +11,7 @@ export function getApp(): Application {
   app.use(
     cors({
       origin: '*',
-      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+      methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
       credentials: true,
     }),
   );

@@ -48,6 +48,7 @@ export class VehiclesController {
   @Patch(':id', [ExpressAuthMiddleware])
   async update(req: Req, res: Res, next: Next) {
     const id = this.validateParam(req.params.id as string, next);
+
     if (!id) return;
 
     const update = req.body;
@@ -83,6 +84,9 @@ export class VehiclesController {
 
   private validateParam(id: string, next: Next) {
     const isUUID = validate(id);
+    console.log({
+      isUUID,
+    });
     if (!isUUID) return next();
     return id;
   }

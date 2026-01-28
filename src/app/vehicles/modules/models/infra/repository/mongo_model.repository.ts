@@ -19,7 +19,22 @@ export class MongoModelRepository implements ModelRepository {
 
   async find(
     query?: Partial<QueryOptions>,
+    q: boolean = true,
   ): Promise<PaginatedResult<ModelEntity>> {
+    if (!q) {
+      const docs: unknown = await this.model.find(query);
+      const pagination = {
+        totalItems: (docs as any[]).length,
+        perPage: 10,
+        currentPage: 1,
+        totalPages: Math.ceil((docs as any[]).length / 10),
+        hasNextPage: false,
+        hasPreviousPage: false,
+        nextPage: null,
+        previousPage: null,
+      };
+      return { docs: docs as any[], pagination };
+    }
     return await this.qbuilder
       .parseQuery(query as Record<string, any>)
       .with('brand')

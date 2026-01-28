@@ -39,6 +39,16 @@ export class ModelService implements ModelsUseCases {
     }
   }
 
+  async findByBrand(brand: string): Promise<ModelResponse> {
+    try {
+      const response = await this.repository.find({ brand }, false);
+      return this.successResponse(response as any);
+    } catch (error) {
+      const message = (error as Error)?.message || 'Error updating model';
+      return this.errorResponse(message);
+    }
+  }
+
   async update(id: string, input: UpdateModelDto): Promise<ModelResponse> {
     try {
       const doc = await this.repository.update(id, input);

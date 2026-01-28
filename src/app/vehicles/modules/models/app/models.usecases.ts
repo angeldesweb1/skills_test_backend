@@ -21,4 +21,5 @@ export interface ModelsUseCases {
   findById(id: string): Promise<ModelResponse>;
   update(id: string, model: UpdateModelDto): Promise<ModelResponse>;
   delete(id: string): Promise<ModelResponse>;
+  findByBrand(brand: string): Promise<ModelResponse>;
 }
