@@ -31,6 +31,36 @@ git clone https://github.com/angeldesweb1/skills_test_backend.git
 
 Crea en la raíz del proyecto un archivo .env y copia el contenido del archivo .env.example en el mismo, sustituyendo los valores por los de tus variables de entorno
 
+#### Seeding
+
+Puedes hacer una carga inicial de la base de datos siguiendo los pasos a continuación:
+
+- Teniendo el archivo .env asegurate de tener una variable de entorno DB_URI con tu string de conección a mongodb
+
+- Instala las dependencias
+
+```shell
+
+bun install
+
+```
+
+- Compila el proyecto.
+
+```shell
+
+bun run build
+
+```
+
+- Ejecuta el seed
+
+```shell
+
+bun seed
+
+```
+
 #### Puesta en marcha
 
 Puedes probar el proyecto en local ya sea instalando bun o con npm teniendo en cuenta no hacer commits con el package-lock.json.
@@ -88,7 +118,7 @@ Debido a algunos contratiempos me fue imposible agregar un swagger con las espec
 
 TYPES
 
-- Bran
+- Brand
   id: string
   name: string
 
@@ -117,6 +147,12 @@ TYPES
   hasPreviousPage: false
   nextPage: null
   previousPage: null
+
+- QueryOptions
+  - limit?: number
+  - offset?: number
+  - sort?: string
+  - order?: 'asc' | 'desc'
 
 - GET /vehicles
   - Response

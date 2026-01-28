@@ -10,7 +10,8 @@ export class MongooseQueryBuilder<T> {
       filters: {},
       limit: 10,
       offset: 0,
-      sort: {},
+      sort: 'createdAt',
+      order: 'asc',
     };
   }
 
@@ -59,7 +60,8 @@ export class MongooseQueryBuilder<T> {
   }
 
   sortBy(field: string, direction: 'asc' | 'desc' = 'asc'): this {
-    this.query.sort[field] = direction;
+    this.query.order = direction;
+    this.query.sort = field;
     return this;
   }
 
@@ -70,7 +72,7 @@ export class MongooseQueryBuilder<T> {
       query.populate(relation);
     });
     return query
-      .sort(this.query.sort)
+      .sort({ [this.query.sort]: this.query.order === 'desc' ? -1 : 1 })
       .skip(this.query.offset)
       .limit(this.query.limit);
   }

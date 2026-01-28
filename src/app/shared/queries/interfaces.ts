@@ -18,5 +18,6 @@ export interface QueryOptions {
   filters: Record<string, any>;
   limit: number;
   offset: number;
-  sort: { [key: string]: 'asc' | 'desc' | 1 | -1 };
+  order: 'asc' | 'desc';
+  sort: string;
 }
