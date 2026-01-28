@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 const dotenv = require('dotenv');
+const { v4 } = require('uuid');
 
 const salt = bcrypt.genSaltSync(10);
 dotenv.config();
@@ -37,15 +38,32 @@ const runSeed = async () => {
         fs.readFileSync(path.join(__dirname, '../seed', file), 'utf-8'),
       );
 
-    const brands = loadJSON('brands.json');
-    const models = loadJSON('models.json');
-    const users = loadJSON('users.json');
-    const vehicles = loadJSON('vehicles.json');
+    let brands = loadJSON('brands.json');
+    let models = loadJSON('models.json');
+    let users = loadJSON('users.json');
+    let vehicles = loadJSON('vehicles.json');
 
     console.log('🔑 Hash de contraseñas...');
     let auth = users.map((u) => {
       u.password = bcrypt.hashSync(u.password, salt);
+      u.uuid = v4();
       return u;
+    });
+
+    console.log('🛂 Generando uuid...');
+    vehicles = vehicles.map((v) => {
+      v.id = v4();
+      return v;
+    });
+
+    brands = brands.map((b) => {
+      b.id = v4();
+      return b;
+    });
+
+    models = models.map((m) => {
+      m.id = v4();
+      return m;
     });
 
     console.log('🧹 Limpiando colecciones...');
