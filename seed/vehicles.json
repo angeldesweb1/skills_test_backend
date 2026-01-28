@@ -1,0 +1,86 @@
+[
+  {
+    "id": "v1e2h3i4-c5l6-4e78-90ab-cdef12345678",
+    "model": "65b2a2a2f1a2b3c4d5e6f101",
+    "year": "2023",
+    "createdBy": "65b2a3b3f1a2b3c4d5e6f201",
+    "status": "disponible"
+  },
+  {
+    "id": "a2b3c4d5-e6f7-4g8h-9i0j-1k2l3m4n5o6p",
+    "model": "65b2a2a2f1a2b3c4d5e6f102",
+    "year": "2022",
+    "createdBy": "65b2a3b3f1a2b3c4d5e6f202",
+    "status": "mantenimiento"
+  },
+  {
+    "id": "b3c4d5e6-f7g8-4h9i-0j1k-2l3m4n5o6p7q",
+    "model": "65b2a2a2f1a2b3c4d5e6f103",
+    "year": "2021",
+    "createdBy": "65b2a3b3f1a2b3c4d5e6f203",
+    "status": "servicio"
+  },
+  {
+    "id": "c4d5e6f7-g8h9-4i0j-1k2l-3m4n5o6p7q8r",
+    "model": "65b2a2a2f1a2b3c4d5e6f104",
+    "year": "2024",
+    "createdBy": "65b2a3b3f1a2b3c4d5e6f204",
+    "status": "disponible"
+  },
+  {
+    "id": "d5e6f7g8-h9i0-4j1k-2l3m-4n5o6p7q8r9s",
+    "model": "65b2a2a2f1a2b3c4d5e6f105",
+    "year": "2020",
+    "createdBy": "65b2a3b3f1a2b3c4d5e6f205",
+    "status": "mantenimiento"
+  },
+  {
+    "id": "e6f7g8h9-i0j1-4k2l-3m4n-5o6p7q8r9s0t",
+    "model": "65b2a2a2f1a2b3c4d5e6f106",
+    "year": "2023",
+    "createdBy": "65b2a3b3f1a2b3c4d5e6f206",
+    "status": "servicio"
+  },
+  {
+    "id": "f7g8h9i0-j1k2-4l3m-4n5o-6p7q8r9s0t1u",
+    "model": "65b2a2a2f1a2b3c4d5e6f107",
+    "year": "2022",
+    "createdBy": "65b2a3b3f1a2b3c4d5e6f207",
+    "status": "disponible"
+  },
+  {
+    "id": "g8h9i0j1-k2l3-4m4n-5o6p-7q8r9s0t1u2v",
+    "model": "65b2a2a2f1a2b3c4d5e6f108",
+    "year": "2021",
+    "createdBy": "65b2a3b3f1a2b3c4d5e6f208",
+    "status": "disponible"
+  },
+  {
+    "id": "h9i0j1k2-l3m4-4n5o-6p7q-8r9s0t1u2v3w",
+    "model": "65b2a2a2f1a2b3c4d5e6f109",
+    "year": "2023",
+    "createdBy": "65b2a3b3f1a2b3c4d5e6f209",
+    "status": "mantenimiento"
+  },
+  {
+    "id": "i0j1k2l3-m4n5-4o6p-7q8r-9s0t1u2v3w4x",
+    "model": "65b2a2a2f1a2b3c4d5e6f110",
+    "year": "2024",
+    "createdBy": "65b2a3b3f1a2b3c4d5e6f210",
+    "status": "servicio"
+  },
+  {
+    "id": "j1k2l3m4-n5o6-4p7q-8r9s-0t1u2v3w4x5y",
+    "model": "65b2a2a2f1a2b3c4d5e6f111",
+    "year": "2019",
+    "createdBy": "65b2a3b3f1a2b3c4d5e6f211",
+    "status": "disponible"
+  },
+  {
+    "id": "k2l3m4n5-o6p7-4q8r-9s0t-1u2v3w4x5y6z",
+    "model": "65b2a2a2f1a2b3c4d5e6f112",
+    "year": "2022",
+    "createdBy": "65b2a3b3f1a2b3c4d5e6f212",
+    "status": "disponible"
+  }
+]

@@ -14,11 +14,8 @@ export class MongooseQueryBuilder<T> {
     };
   }
 
-  parseQuery(
-    queryParams: Record<string, any>,
-    filterBlacklist: string[] = [],
-  ): this {
-    const { limit, offset, sortBy, order, ...filters } = queryParams;
+  parseQuery(queryParams: Record<string, any>): this {
+    const { limit, offset, sortBy, order, filters } = queryParams;
 
     if (limit) this.setLimit(Number(limit));
     if (offset) this.setOffset(Number(offset));
@@ -27,23 +24,14 @@ export class MongooseQueryBuilder<T> {
       this.sortBy(sortBy, order === 'desc' ? 'desc' : 'asc');
     }
 
-    const blacklist = [
-      'limit',
-      'offset',
-      'sortBy',
-      'order',
-      ...filterBlacklist,
-    ];
+    const fields = filters
+      ? filters.split(',').map((field: string) => field.split('.'))
+      : [];
 
-    Object.keys(filters).forEach((key) => {
-      if (!blacklist.includes(key) && filters[key] !== undefined) {
-        let value = filters[key];
-        if (value === 'true') value = true;
-        if (value === 'false') value = false;
-
+    if (fields?.length)
+      fields.forEach(([key, value]: [string, any]) => {
         this.where(key, value);
-      }
-    });
+      });
 
     return this;
   }

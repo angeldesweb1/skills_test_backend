@@ -1,5 +1,8 @@
 {
   "name": "backend",
+  "bin": {
+    "db-seed": "./bin/seed"
+  },
   "version": "0.0.1",
   "description": "Ridery skills test app - backend",
   "main": "index.js",
@@ -8,7 +11,8 @@
     "prebuild": "bunx rimraf dist",
     "build": "tsc -p tsconfig.json",
     "start": "bun run dist/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "node bin/seed"
   },
   "author": "angeldesweb <angeldesweb@gmail.com>",
   "license": "MIT",

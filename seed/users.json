@@ -1,0 +1,74 @@
+[
+  {
+    "_id": "65b2a3b3f1a2b3c4d5e6f201",
+    "uuid": "u1a2b3c4-d5e6-4f7g-8h9i-0j1k2l3m4n5o",
+    "email": "admin@example.com",
+    "password": "hashed_password_1"
+  },
+  {
+    "_id": "65b2a3b3f1a2b3c4d5e6f202",
+    "uuid": "v2b3c4d5-e6f7-4g8h-9i0j-1k2l3m4n5o6p",
+    "email": "user1@example.com",
+    "password": "hashed_password_2"
+  },
+  {
+    "_id": "65b2a3b3f1a2b3c4d5e6f203",
+    "uuid": "w3c4d5e6-f7g8-4h9i-0j1k-2l3m4n5o6p7q",
+    "email": "user2@example.com",
+    "password": "hashed_password_3"
+  },
+  {
+    "_id": "65b2a3b3f1a2b3c4d5e6f204",
+    "uuid": "x4d5e6f7-g8h9-4i0j-1k2l-3m4n5o6p7q8r",
+    "email": "user3@example.com",
+    "password": "hashed_password_4"
+  },
+  {
+    "_id": "65b2a3b3f1a2b3c4d5e6f205",
+    "uuid": "y5e6f7g8-h9i0-4j1k-2l3m-4n5o6p7q8r9s",
+    "email": "user4@example.com",
+    "password": "hashed_password_5"
+  },
+  {
+    "_id": "65b2a3b3f1a2b3c4d5e6f206",
+    "uuid": "z6f7g8h9-i0j1-4k2l-3m4n-5o6p7q8r9s0t",
+    "email": "user5@example.com",
+    "password": "hashed_password_6"
+  },
+  {
+    "_id": "65b2a3b3f1a2b3c4d5e6f207",
+    "uuid": "a7g8h9i0-j1k2-4l3m-4n5o-6p7q8r9s0t1u",
+    "email": "user6@example.com",
+    "password": "hashed_password_7"
+  },
+  {
+    "_id": "65b2a3b3f1a2b3c4d5e6f208",
+    "uuid": "b8h9i0j1-k2l3-4m4n-5o6p-7q8r9s0t1u2v",
+    "email": "user7@example.com",
+    "password": "hashed_password_8"
+  },
+  {
+    "_id": "65b2a3b3f1a2b3c4d5e6f209",
+    "uuid": "c9i0j1k2-l3m4-4n5o-6p7q-8r9s0t1u2v3w",
+    "email": "user8@example.com",
+    "password": "hashed_password_9"
+  },
+  {
+    "_id": "65b2a3b3f1a2b3c4d5e6f210",
+    "uuid": "d0j1k2l3-m4n5-4o6p-7q8r-9s0t1u2v3w4x",
+    "email": "user9@example.com",
+    "password": "hashed_password_10"
+  },
+  {
+    "_id": "65b2a3b3f1a2b3c4d5e6f211",
+    "uuid": "e1k2l3m4-n5o6-4p7q-8r9s-0t1u2v3w4x5y",
+    "email": "user10@example.com",
+    "password": "hashed_password_11"
+  },
+  {
+    "_id": "65b2a3b3f1a2b3c4d5e6f212",
+    "uuid": "f2l3m4n5-o6p7-4q8r-9s0t-1u2v3w4x5y6z",
+    "email": "user11@example.com",
+    "password": "hashed_password_12"
+  }
+]
